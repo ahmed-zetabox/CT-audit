@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="137.5" viewBox="0 0 110 137.5" >
+  <g id="bluetooth-disabled-button" transform="translate(-51)" opacity="0.17">
+    <g id="bluetooth-disabled" transform="translate(51)">
+      <path id="Tracé_3018" data-name="Tracé 3018" d="M112.875,26.125l13.063,13.063-11,11,9.625,9.625,20.625-20.625L106,0H99.125V34.375l13.75,13.75ZM60.625,13.75,51,23.375,96.375,68.75l-38.5,38.5,9.625,9.625L99.125,85.25V137.5H106l29.563-29.562,15.813,15.813L161,114.125Zm52.25,97.625V85.25l13.063,13.063Z" transform="translate(-51)"/>
+    </g>
+  </g>
+</svg>

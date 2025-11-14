@@ -1,0 +1,62 @@
+P01;ConsigneRecharge;180.0;150.0;280.0;Dixième;°C;Consigne du mode recharge
+P02;ConsigneProduction;3.0;-30.0;70.0;Dixième;°C;Consigne du mode production
+P03;DeltaTemperatureBridageChauffage;2.0;0.0;10.0;Dixième;°C;Différence de température par rapport à la consigne pour la limitation de puissance
+P04;HysteresisNegativeProduction;0.2;0.1;3.0;Dixième;°C;"Hystérésis négative utilisée pour définir :-  le seuil de basculement de la phase transitoire à la phase permanente pour les productions en mode frais (P02 - P04)-  le seuil de basculement de la phase ambiante à la phase transitoire froide pour la production en mode ambiant (P02 - P04)"
+P05;HysteresisRecharge;5.0;1.0;10.0;Dixième;°C;Hystérésis de recharge
+P06;DureeRecharge;270;1;480;Unité;Minutes;Durée de recharge
+P07;DureeRefroidissement;120;1;450;Unité;Minutes;Durée de refroidissement
+P08;TemperatureCondenseurMaximale;65.0;50.0;70.0;Dixième;°C;Température maximale de sécurité du condenseur au dessus de laquelle la chauffe n'est plus permise
+P09;RechargePorteOuverteActive;0;0;1;Unité;Sans;"P09 = 0 -> Etat de la porte non pris en compte pour la recharge P09 = 1 -> Porte ouverte obligatoire pour la recharge"
+P10;DureeAvantVeille;5;1;15;Unité;Minutes;Durée d'attente hors production ou recharge avant le passage en veille automatique du système
+P11;DureeCoupureSecteur;15;0;30;Unité;Minutes;Délai maximal de coupure secteur en mode recharge avant la déclaration d'un défaut
+P12;CapaciteBatterie;17;8;300;Unité;Ah;Capacité de la batterie
+P13;TensionAlarmeBatterieFaible;11.0;10.0;12.0;Dixième;V;Tension de batterie en dessous de laquelle le message "BATT" est affiché en mode production
+P14;TensionAlarmeBatterieVide;10.5;9.0;11.0;Dixième;V;Niveau de batterie en dessous duquel le message "BATT" est affiché en mode production
+P15;SeuilAlarmeBatterieFaible;20;0;50;Unité;%;Tension de batterie en dessous de laquelle une production est interrompue
+P16;SeuilAlarmeBatterieVide;10;0;50;Unité;%;Niveau de batterie en dessous duquel une production est interrompue
+P17;TypeCommandeElectrovanne;1;0;1;Unité;Sans;"P17 = 0 -> Commande continue P17 = 1 -> Commande impulsionnelle"
+P18;DelaiTracabilite;3;1;5;Unité;Minutes;Délai d'attente entre 2 enregistrements de traçabilité
+P19;DureeProduction;8;1;48;Unité;Heures;"Durée de production Paramètre inutile depuis V026 conservé à titre informatif"
+P20;ModeAffichage;1;0;1;Unité;Sans;"P20 = 0 -> Affichage TAIR P20 = 1 -> Affichage consigne"
+P21;ModeProduction;0;0;2;Unité;Sans;"P21 = 0 -> Mode Frais P21 = 1 -> Mode Ambiant P21 = 2 -> Mode Chaud Froid"
+P22;TemperatureDemarrageRefroidissement;150.0;100.0;250.0;Dixième;°C;Seuil de température que les réacteurs doivent atteindre avant le démarrage de la ventilation VREACT en mode refroidissement
+P23;DelaiDemarrageRefroidissement;1;0;30;Unité;Minutes;Délai d'attente avant le démarrage de la ventilation VREACT en mode refroidissement
+P24;CapteurPortePresent;1;0;1;Unité;Sans;Paramètre indiquant si le capteur de porte est géré par l'automate
+P25;UniteTemperature;0;0;1;Unité;Sans;"P25 = 0 -> Celcius P25 = 1 -> Fahrenheit"
+P26;Offset_PT100_TREACT;0.0;-5.0;5.0;Dixième;°C;Offset de la sonde TREACT
+P27;Offset_PT100_TEVAP;0.0;-5.0;5.0;Dixième;°C;Offset de la sonde TEVAP
+P28;Offset_PT100_TAIR;0.0;-5.0;5.0;Dixième;°C;Offset de la sonde TAIR
+P29;Offset_PT100_TAMB;0.0;-5.0;5.0;Dixième;°C;Offset de la sonde TAMB
+P30;NumeroSerie;0;0;9999;Unité;Sans;Numéro de série court de l'appareil. La concaténation des 2 derniers digits de P32 avec P30 donne le numéro de série complet
+P31;HysteresisPositiveProduction;0.2;0.1;3.0;Dixième;°C;"Hystérésis positive utilisée pour définir : -  le seuil de basculement de la phase permanente à la phase transitoire pour les productions en mode frais (P02 + P31) -  le seuil de basculement de la phase ambiante à la phase transitoire chaude pour la production en mode ambiant (P02 + P31)"
+P32;AnneeProduction;2020;2019;2049;Unité;Sans;Année de production de l'appareil. La concaténation des 2 derniers digits de P32 avec P30 donne le numéro de série complet
+P33;HysteresisNegativeChauffe;0.5;0.1;3.0;Dixième;°C;Hystérésis négative utilisée pour définir le seuil de basculement de la phase ambiante à la phase transitoire chaude pour la production en mode ambiant (P02 - P33)
+P34;HysteresisPositiveChauffe;1.0;0.1;3.0;Dixième;°C;Hystérésis positive utilisée pour définir le seuil de basculement de la phase ambiante à la phase transitoire chaude pour la production en mode ambiant (P02 + P34)
+P35;DelaiMiseEnTemperatureProduction;3;0;30;Unité;Minutes;Délai de mise en température de production pour la programmation
+P36;PoucentageActivationChaffageSurPeriode;30;5;100;Unité;%;Pourcentage d’activation du chauffage sur la période
+P37;TempsDeverrouillageRefroidissement;60;0;360;Unité;Minutes;Seuil de refroidissement restant à partir duquel une production peut être lancée
+P38;Free;0;0;0;Unité;Sans;
+P39;Free;0;0;0;Unité;Sans;
+P40;Free;0;0;0;Unité;Sans;
+P41;Free;0;0;0;Unité;Sans;
+P42;PeriodeVentilationPulsee;60;10;240;Unité;Secondes;Durée totale d'un cycle de ventilation pulsée. La valeur réglée doit être supérieure à P43
+P43;DureeVentilationPulsee;5;0;120;Unité;Secondes;Durée d'activité de la ventilation pulsée. La valeur réglée doit être inférieure à P42
+P44;CoefficientDebitRecharge;30.00;0.00;100.00;Centième;%/h;Coefficient de débit de NH3 en phase recharge
+P45;DelaiIncrementationRecharge;60;0;120;Unité;Minutes;Délai d'attente en mode recharge avant que la jauge NH3 ne commence à s'incrémenter
+P46;Free;0;0;0;Unité;Sans;
+P47;CoefficientPerteMcpCaisse;1.85;0.00;100.00;Centième;%/°C;Coefficient de perte de la caisse (valable en phase transitoire)
+P48;CoefficientPerteMcpEvap;1.27;0.00;100.00;Centième;%/°C;Coefficient de perte de l'évaporateur (valable en phase transitoire)
+P49;CoefficientPerteKsCaisse;1.00;0.00;100.00;Centième;%/°C/h;Coefficient de perte de la caisse (valable en phase permanent)
+P50;CoefficientPerteQPorte;0.50;0.00;2.00;Centième;%/°C;Coefficient de porte due à l'ouverture de la porte (valable en phase permanent)
+P51;CourantRechargeBatterie;13.0;1.0;30.0;Dixième;A;Courant de recharge de la batterie en mode Ambiant
+P52;PuissanceChauffage;240;0;3000;Unité;W;Puissance du chauffage en mode Ambiant
+P53;ConsigneProductionMin;3.0;-30.0;70.0;Dixième;°C;Point de consigne min en mode production. La valeur réglée doit être inférieure à P54
+P54;ConsigneProductionMax;3.0;-30.0;70.0;Dixième;°C;Point de consigne max en mode production. La valeur réglée doit être supérieure à P53
+P55;NombreJoursAvantRevision;365;0;2000;Unité;Jours;Nombre de jours avant révision
+P56;HSBridageEV;1.00;0.00;100.00;Centième;Sans;Coefficient HS
+P57;TemperatureAlarmeHaute;5.0;-35.0;75.0;Dixième;°C;Température maximale avant alarme de dépassement de la température
+P58;TemperatureAlarmeBasse;1.0;-35.0;75.0;Dixième;°C;Température minimale avant alarme de dépassement de la température
+P59;PoucentageDebridageEV;50;0;100;Unité;%;Niveau NH3 débridage
+P60;DeltaTempsBridageEV;5;0;60;Unité;Minutes;Durée à partir de laquelle le bridage de l’EV peut être déverrouillé
+P61;DeltaTemperatureDebridageEV;2.0;0.0;10;Dixième;°C/minute;Pente de descente en température
+P62;PeriodePWMChauffage;10;1;60;Unité;Secondes;Période du PWM chauffage

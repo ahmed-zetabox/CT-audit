@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/background_splash"
+    android:scaleType="centerCrop" />
+<TextView
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Version 0.18.2"
+ android:layout_marginBottom="15dp"
+ android:textSize="13sp"
+ android:textColor="#F5F5F5"
+ android:font="@font/ralewayregular"
+ android:layout_alignParentBottom="true"
+ android:layout_centerHorizontal="true"/>
+</RelativeLayout>
