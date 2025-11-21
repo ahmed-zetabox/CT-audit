@@ -53,42 +53,81 @@ public class PermissionFileModule extends ReactContextBaseJavaModule implements 
     }
 
     private boolean checkPermission() {
-        if (Build.VERSION.SDK_INT >= 30) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // For Android 11 (API 30) and above
             return Environment.isExternalStorageManager();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // For Android 6.0 (API 23) to Android 10 (API 29)
+            int readPermission = ContextCompat.checkSelfPermission(
+                getReactApplicationContext(), 
+                READ_EXTERNAL_STORAGE
+            );
+            int writePermission = ContextCompat.checkSelfPermission(
+                getReactApplicationContext(), 
+                WRITE_EXTERNAL_STORAGE
+            );
+            return readPermission == PackageManager.PERMISSION_GRANTED && 
+                   writePermission == PackageManager.PERMISSION_GRANTED;
         } else {
-            int result = ContextCompat.checkSelfPermission(getReactApplicationContext(), READ_EXTERNAL_STORAGE);
-            int result1 = ContextCompat.checkSelfPermission(getReactApplicationContext(), WRITE_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+            // Below Android 6.0, permissions are granted at install time
+            return true;
         }
     }
 
     private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= 30) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // For Android 11 (API 30) and above
             try {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 intent.addCategory("android.intent.category.DEFAULT");
-                intent.setData(Uri.parse(String.format("package:%s",getReactApplicationContext().getPackageName())));
-                getCurrentActivity().startActivityForResult(intent, 2296);
+                intent.setData(Uri.parse("package:" + getReactApplicationContext().getPackageName()));
+                if (intent.resolveActivity(getReactApplicationContext().getPackageManager()) != null) {
+                    getCurrentActivity().startActivityForResult(intent, 2296);
+                }
             } catch (Exception e) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                // Fallback to app settings
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getReactApplicationContext().getPackageName(), null);
+                intent.setData(uri);
                 getCurrentActivity().startActivityForResult(intent, 2296);
             }
-        } else {
-            //below android 11
-            ActivityCompat.requestPermissions(getCurrentActivity(), new String[]{WRITE_EXTERNAL_STORAGE}, 100);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // For Android 6.0 (API 23) to Android 10 (API 29)
+            ActivityCompat.requestPermissions(
+                getCurrentActivity(),
+                new String[]{
+                    READ_EXTERNAL_STORAGE,
+                    WRITE_EXTERNAL_STORAGE
+                },
+                100
+            );
         }
+        // Below Android 6.0, no need to request permissions at runtime
     }
 
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == 2296) {
-            if (Build.VERSION.SDK_INT >= 30) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                // For Android 11 (API 30) and above
                 if (Environment.isExternalStorageManager()) {
                     Toast.makeText(getReactApplicationContext(), "Access granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getReactApplicationContext(), "Access not granted", Toast.LENGTH_SHORT).show();
                 }
+            }
+            // For Android 6.0 (API 23) to Android 10 (API 29),
+            // the permission result is handled in onRequestPermissionsResult
+        }
+    }
+    
+    // Add this method to handle permission results for Android 6.0 (API 23) to Android 10 (API 29)
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getReactApplicationContext(), "Storage permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getReactApplicationContext(), "Storage permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
