@@ -1,6 +1,65 @@
 {
-  "name": "cldwPt",
-  "displayName": "coldTrace",
-  "version": "0.18.2",
-  "email": "sav@sofrigam.com"
+  "expo": {
+    "name": "coldTrace",
+    "slug": "cldwpt",
+    "version": "0.18.2",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+
+    "assetBundlePatterns": ["**/*"],
+
+    "ios": {
+      "bundleIdentifier": "com.cldwpt.app",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+
+    "android": {
+      "package": "com.cldwpt",
+      "versionCode": 1,
+      "kotlinVersion": "1.9.23",
+
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "minSdkVersion": 24,
+            "buildToolsVersion": "34.0.0",
+            "kotlinVersion": "1.9.23"
+          }
+        }
+      ]
+    ],
+
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+
+    "extra": {
+      "email": "sav@sofrigam.com"
+    }
+  }
 }
