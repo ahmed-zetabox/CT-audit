@@ -1,37 +1,58 @@
 #!/usr/bin/env node
 
 /*
-  Fixes react-native-ble-plx@1.1.1 build on android for RN 0.62
-  See issue https://github.com/Polidea/react-native-ble-plx/issues/663
+  Postinstall script to patch native modules for RN 0.77 compatibility
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const RN_BLEPLX_BUILDGRADLE = path.resolve(
-  __dirname,
-  '../',
-  'node_modules',
-  'react-native-ble-plx',
-  'android',
-  'build.gradle',
-);
-if (!fs.existsSync(RN_BLEPLX_BUILDGRADLE)) {
-  console.error('react-natibe-ble-plx not installed.');
-  process.exit(1);
+// Helper function to patch a file
+function patchFile(filePath, patches, description) {
+  if (!fs.existsSync(filePath)) {
+    console.warn(`File not found: ${filePath}`);
+    return false;
+  }
+  
+  let content = fs.readFileSync(filePath, { encoding: 'utf8' });
+  let originalContent = content;
+  
+  patches.forEach(({ search, replace }) => {
+    content = content.replace(search, replace);
+  });
+  
+  if (content !== originalContent) {
+    fs.writeFileSync(filePath, content, { encoding: 'utf8' });
+    console.log(`✓ Patched: ${description}`);
+    return true;
+  }
+  return false;
 }
 
-console.debug(
-  'Updating file ' +
-    path.relative(__dirname, RN_BLEPLX_BUILDGRADLE) +
-    ' so it builds with RN 0.62',
-);
-const buildGradleText = fs.readFileSync(RN_BLEPLX_BUILDGRADLE, {
-  encoding: 'utf8',
+// List of libraries to patch for SDK 34
+const librariesToPatch = [
+  'react-native-wifi-reborn',
+  'rn-fetch-blob',
+  'react-native-charts-wrapper',
+  'react-native-system-setting',
+  'react-native-mail',
+  'react-native-splash-screen',
+  'react-native-document-picker',
+  'react-native-file-viewer',
+  'react-native-view-shot',
+  'react-native-localize',
+  'react-native-progress-circle',
+  '@react-native-community/checkbox',
+  '@react-native-community/datetimepicker',
+];
+
+librariesToPatch.forEach(lib => {
+  const gradlePath = path.resolve(__dirname, `../node_modules/${lib}/android/build.gradle`);
+  patchFile(gradlePath, [
+    { search: /compileSdkVersion\s+\d+/g, replace: 'compileSdkVersion 34' },
+    { search: /targetSdkVersion\s+\d+/g, replace: 'targetSdkVersion 34' },
+    { search: /buildToolsVersion\s+["'][\d.]+["']/g, replace: 'buildToolsVersion "34.0.0"' },
+  ], `${lib} for SDK 34`);
 });
-const fixedGradleText = buildGradleText.replace(
-  "apply plugin: 'groovyx.android'",
-  '',
-);
-fs.writeFileSync(RN_BLEPLX_BUILDGRADLE, fixedGradleText, {encoding: 'utf8'});
-console.debug('react-native-ble-plx@1.1.1 updated!');
+
+console.log('Postinstall patches complete!');

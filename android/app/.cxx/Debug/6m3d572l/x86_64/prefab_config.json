@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "prefabPath": "/Users/zetabox/.gradle/caches/modules-2/files-2.1/com.google.prefab/cli/2.1.0/aa32fec809c44fa531f01dcfb739b5b3304d3050/cli-2.1.0-all.jar",
+  "packages": [
+    "/Users/zetabox/.gradle/caches/8.10.2/transforms/ed5ca8ebab59700824d02f980da2e57c/transformed/jetified-react-android-0.78.0-debug/prefab",
+    "/Users/zetabox/Desktop/Projects/incorta/CT-audit/node_modules/react-native-reanimated/android/build/intermediates/prefab_package/debug/prefab",
+    "/Users/zetabox/.gradle/caches/8.10.2/transforms/b712aaad311b3f540ba74bdb04353f76/transformed/jetified-hermes-android-0.78.0-debug/prefab",
+    "/Users/zetabox/.gradle/caches/8.10.2/transforms/93929f6f826a0adf8a292ff8a7f6a61a/transformed/jetified-fbjni-0.7.0/prefab"
+  ]
+}

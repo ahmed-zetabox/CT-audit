@@ -1,26 +1,28 @@
-const MetroConfig = require('@ui-kitten/metro-config');
-const defaultConfig = require('metro-config/src/defaults').getDefaultValues();
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+
+const defaultConfig = getDefaultConfig(__dirname);
+const {assetExts, sourceExts} = defaultConfig.resolver;
 
 /**
- * @see https://akveo.github.io/react-native-ui-kitten/docs/guides/improving-performance
+ * Metro configuration
+ * https://reactnative.dev/docs/metro
+ *
+ * @type {import('metro-config').MetroConfig}
  */
-const evaConfig = {
-  evaPackage: '@eva-design/eva',
-  customMappingPath: './mapping.json',
-};
-
-module.exports = MetroConfig.create(evaConfig, {
+const config = {
   transformer: {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: false,
+        inlineRequires: true,
       },
     }),
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
   },
   resolver: {
-    assetExts: defaultConfig.resolver.assetExts.filter((ext) => ext !== 'svg'),
-    sourceExts: [...defaultConfig.resolver.sourceExts, 'svg'],
+    assetExts: assetExts.filter((ext) => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
   },
-});
+};
+
+module.exports = mergeConfig(defaultConfig, config);
