@@ -1,11 +1,17 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Layout, Spinner} from '@ui-kitten/components';
+import React, {useEffect} from 'react';
+import {StyleSheet, Alert} from 'react-native';
+import {Layout, Spinner, Text} from '@ui-kitten/components';
 
 export default Loader = () => {
+  useEffect(() => {
+    console.log('=== LOADER COMPONENT MOUNTED ===');
+    Alert.alert('Debug', 'Loader is showing - app is stuck on initialization');
+  }, []);
+  
   return (
     <Layout style={styles.container} level="1">
       <Spinner size="giant" />
+      <Text style={{marginTop: 20}}>Loading...</Text>
     </Layout>
   );
 };

@@ -99,8 +99,11 @@ const MainScreen = (props) => {
   };
 
   useEffect(() => {
+    console.log('=== MainScreen useEffect START ===');
     dispatch(actionCreators.initilize());
-    requestLocationAndBlePermissions;
+    console.log('=== initilize() dispatched ===');
+    requestLocationAndBlePermissions();
+    console.log('=== requestLocationAndBlePermissions() called ===');
   }, []);
 
   useEffect(() => {
@@ -321,7 +324,9 @@ const MainScreen = (props) => {
     const result = await filterCharacteristics(characteristics, '7003').read();
     dispatch(actionCreators.setSerialKeyVersion(decoder(result.value, '32LE')));
   };
-  return <>{!isAppInitilized ? <Loader /> : <StackNavigation />}</>;
+  console.log('=== MainScreen render, isAppInitilized:', isAppInitilized, '===');
+  // TEMPORARY: Always show StackNavigation to bypass loader
+  return <><StackNavigation /></>;
 };
 
 export default MainScreen;

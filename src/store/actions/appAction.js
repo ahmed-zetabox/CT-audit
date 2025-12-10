@@ -184,14 +184,12 @@ export const initilize = () => {
   return async (dispatch) => {
     console.log('initialize ' + Platform.Version);
     if (Platform.OS === constants.PLATFORM_ANDROID) {
-      if (Platform.Version >= 30) {
-        _CheckManageAllFilesPermission(dispatch);
-      } else {
-        await _CheckPermissionStorage().then((PermissionStorage) => {
-          initApp(dispatch, PermissionStorage);
-        });
-      }
+      // For now, avoid MANAGE_EXTERNAL_STORAGE flow and only rely on standard storage permission
+      await _CheckPermissionStorage().then((PermissionStorage) => {
+        initApp(dispatch, PermissionStorage);
+      });
     } else {
+      
       // For iOS platform
       await initApp(dispatch, true);
     }
@@ -199,25 +197,41 @@ export const initilize = () => {
 };
 
 export const initApp = async (dispatch, permissionStorage) => {
-  let permission = true;
-  if (Platform.OS === constants.PLATFORM_ANDROID) {
-    // Check bluetooth and location permissions for Android only
-    permission = await checkAllPermissions();
+  console.log('=== initApp START ===');
+  try {
+    let permission = true;
+    if (Platform.OS === constants.PLATFORM_ANDROID) {
+      console.log('=== Checking permissions ===');
+      // Check bluetooth and location permissions for Android only
+      permission = await checkAllPermissions();
+      console.log('=== Permissions result:', permission, '===');
+    }
+    console.log('=== Getting unit temp ===');
+    const unit = await _getUnitTemp();
+    console.log('=== Dispatching storage actions ===');
+    dispatch(actionCreators.fetchStorageMaint());
+    dispatch(actionCreators.setTempUniti(unit === 1 ? '°F' : '°C'));
+    dispatch(actionCreators.fetchStorageSup());
+    dispatch(actionCreators.fetchStorageColdway());
+    dispatch(changeLocationStatus(permission));
+    console.log('=== Toggling bluetooth ===');
+    dispatch(toggleBluetooth(true));
+    if (permissionStorage) {
+      console.log('=== Saving default settings ===');
+      saveDfSettings(dispatch);
+    }
+    if (permission) {
+      console.log('=== Starting scan ===');
+      dispatch(actionCreators.startScan());
+    }
+    console.log('=== Setting appInit to TRUE ===');
+    dispatch(appInit(true));
+    console.log('=== initApp COMPLETED ===');
+  } catch (error) {
+    console.error('=== initApp ERROR:', error, '===');
+    // Always set appInit to true even if there's an error
+    dispatch(appInit(true));
   }
-  const unit = await _getUnitTemp();
-  dispatch(actionCreators.fetchStorageMaint());
-  dispatch(actionCreators.setTempUniti(unit === 1 ? '°F' : '°C'));
-  dispatch(actionCreators.fetchStorageSup());
-  dispatch(actionCreators.fetchStorageColdway());
-  dispatch(changeLocationStatus(permission));
-  dispatch(toggleBluetooth(true));
-  if (permissionStorage) {
-    saveDfSettings(dispatch);
-  }
-  if (permission) {
-    dispatch(actionCreators.startScan());
-  }
-  dispatch(appInit(true));
 };
 
 export const toggleBluetooth = (status) => {

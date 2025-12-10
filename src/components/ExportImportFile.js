@@ -4,7 +4,7 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { SaveFile, readFile } from './File_functions';
 import { ButtonGroup, Button } from '@ui-kitten/components';
 import { useTranslation } from 'react-i18next';
-import { pick, types, isCancel } from '@react-native-documents/picker';
+import DocumentPicker from 'react-native-document-picker';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { SetGlobalSetting } from '../store/actions/maintenanceAction';
@@ -61,10 +61,10 @@ const ExportImportView = (props) => {
   const pickFile = async () => {
     props.imortIsLoading(true)
     try {
-      const [res] = await pick({
-        type: [types.plainText],
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.plainText],
       });
-      let newRes = res.uri;
+      let newRes = res[0].uri;
       if (Platform.OS === constants.PLATFORM_IOS) {
         newRes = newRes.replace('file:', '');
       };
@@ -78,7 +78,7 @@ const ExportImportView = (props) => {
         })
         .catch((error) => { console.log('error', error) });
     } catch (err) {
-      if (isCancel(err)) {
+      if (DocumentPicker.isCancel(err)) {
       } else {
         throw err;
       }
