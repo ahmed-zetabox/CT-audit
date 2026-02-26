@@ -157,8 +157,10 @@ const MainScreen = (props) => {
   }, [connectedDevice, characteristics2, isFolderLoading]);
 
   const initDeviceFolders = () => {
-    createFolder(connectedDevice.name);
-  };
+  console.log('=== initDeviceFolders START, device name:', connectedDevice.name, '===');
+  createFolder(connectedDevice.name);
+  console.log('=== initDeviceFolders END ===');
+};
   useEffect(() => {
     if (connectedDevice) {
       const rootPath =
@@ -238,17 +240,21 @@ const MainScreen = (props) => {
   };
 
   const getCycleData = async () => {
-    const cycleNumber = await getCycleNumber();
-    if (cycleNumber - 1 >= 0) {
-      for (let i = 0; i <= cycleNumber - 1; i++) {
-        await writeCycleOffset(i);
-        const [memoryIndex, recordsNum, cycleType, timestamp] =
-          await readSavedCycle();
-        await CreateTreeByCycle(memoryIndex, recordsNum, cycleType, timestamp);
-        //const chartData = readRecords(memoryIndex, recordsNum);
-      }
+  console.log('=== getCycleData START ===');
+  const cycleNumber = await getCycleNumber();
+  console.log('=== Cycle number:', cycleNumber, '===');
+  
+  if (cycleNumber - 1 >= 0) {
+    for (let i = 0; i <= cycleNumber - 1; i++) {
+      console.log('=== Processing cycle', i, 'of', cycleNumber - 1, '===');
+      await writeCycleOffset(i);
+      const [memoryIndex, recordsNum, cycleType, timestamp] = await readSavedCycle();
+      console.log('=== Cycle data:', {memoryIndex, recordsNum, cycleType, timestamp}, '===');
+      await CreateTreeByCycle(memoryIndex, recordsNum, cycleType, timestamp);
     }
-  };
+  }
+  console.log('=== getCycleData END ===');
+};
   const CreateTreeByCycle = async (
     memoryIndex,
     recordsNum,
@@ -271,12 +277,18 @@ const MainScreen = (props) => {
     dispatch(actionCreators.addCycle(value));
   };
   const syncHistory = async () => {
-    dispatch(actionCreators.toggleIsFolderLoading(true));
+  console.log('=== syncHistory START ===');
+  dispatch(actionCreators.toggleIsFolderLoading(true));
+  try {
     await getCycleData();
-    dispatch(actionCreators.toggleIsFolderLoading(false));
-    // Refresh folders list in FolderDeviceItem
-    dispatch(actionCreators.toggleIsDeviceLoading(false));
-  };
+    console.log('=== getCycleData COMPLETED ===');
+  } catch (error) {
+    console.error('=== getCycleData FAILED:', error, '===');
+  }
+  dispatch(actionCreators.toggleIsFolderLoading(false));
+  dispatch(actionCreators.toggleIsDeviceLoading(false));
+  console.log('=== syncHistory END ===');
+};
 
   const readIHM = async () => {
     const result = await filterCharacteristics(characteristics, '7000').read();

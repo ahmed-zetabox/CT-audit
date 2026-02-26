@@ -55,7 +55,7 @@ export default GlobalParameters = (props) => {
 
   const getTitel = (ref) => {
     let res;
-    defaultSettings.map((defaultSetting) => {
+    defaultSettings?.map((defaultSetting) => {
       if (ref == defaultSetting.ref) {
         res = defaultSetting.nomSetting;
       }
@@ -71,7 +71,7 @@ export default GlobalParameters = (props) => {
 
   const HandlerValue = (value) => {
     let res = value;
-    parameters.map((el) => {
+    parameters?.map((el) => {
       if (value == el.ref) {
         res = el.value;
       }
@@ -81,7 +81,7 @@ export default GlobalParameters = (props) => {
 
   const getUnit = (ref) => {
     let res;
-    defaultSettings.map((defaultSetting) => {
+    defaultSettings?.map((defaultSetting) => {
       if (ref == defaultSetting.ref) {
         res = defaultSetting.unite;
       }
@@ -92,7 +92,7 @@ export default GlobalParameters = (props) => {
   const csvDataToObject = (inputValue) => {
     const array = [];
     const arr = refIsnotExist;
-    inputValue.map((settingValue) => {
+    inputValue?.map((settingValue) => {
       if (!getTitel(settingValue.ref)) {
         arr.push(settingValue.ref);
       }

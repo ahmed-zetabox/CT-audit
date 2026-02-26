@@ -3,7 +3,7 @@ import {Layout, Tab, TabView, Text} from '@ui-kitten/components';
 import {StyleSheet, Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ModeAccesModal from '../components/modeAccessModal';
-import Parameters from '../components/parameters';
+import Parameters from '../components/parameters.android';
 import GlobalParameters from '../components/globalParameters';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import * as actionCreators from '../store/actions/index';
@@ -217,7 +217,7 @@ export const MaintenanceScreen = (props) => {
     return notify;
   };
   const resetActionneur = () => {
-    actionneurs.map((item, index) => {
+    actionneurs?.map((item, index) => {
       if (item.value) {
         toggleHandler(false, index);
       }
@@ -226,10 +226,7 @@ export const MaintenanceScreen = (props) => {
   const toggleHandler = (value, index) => {
     const acts = [...actionneurs];
     acts[index].value = value;
-    const binValue = acts
-      .map((x) => (x.value ? 1 : 0))
-      .reverse()
-      .join('');
+    const binValue = acts?.map((x) => (x.value ? 1 : 0))?.reverse()?.join('');
     const hexValue = decoder(binValue, 'binToHex');
     const base64Value = decoder(
       hexValue.length > 1 ? hexValue : hexValue.padStart(2, '0'),
@@ -251,7 +248,7 @@ export const MaintenanceScreen = (props) => {
     <Text
       {...props}
       numberOfLines={1}
-      style={{...props.style, textAlign: 'center'}}>
+      style={{...props?.style, textAlign: 'center'}}>
       {text}
     </Text>
   );

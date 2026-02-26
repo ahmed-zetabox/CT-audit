@@ -58,9 +58,13 @@ i18n
   .init({
     ns: ['common'],
     defaultNS: 'common',
+    fallbackLng: 'en',
     resources,
     interpolation: {
       escapeValue: false, // react already safes from xss
+    },
+    react: {
+      useSuspense: false, // Disable suspense to prevent render blocking
     },
   });
 

@@ -895,4 +895,7 @@ const styles = StyleSheet.create({
   mt_10: {
     marginTop: 10,
   },
+  mt_20: {
+    marginTop: 20
+  }
 });
